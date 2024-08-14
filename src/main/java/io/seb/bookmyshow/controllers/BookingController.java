@@ -20,7 +20,6 @@ public class BookingController {
 
         BookMovieResponseDto responseDto = new BookMovieResponseDto();
 
-
         try {
             Booking booking = bookingService.bookMovie(
                     requestDto.getUserId(),

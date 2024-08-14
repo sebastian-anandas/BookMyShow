@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface ShowSeatRepository extends JpaRepository<ShowSeat, Long> {
 
-    List<ShowSeat> findAllById(List<Long> showSeatIds);
+    List<ShowSeat> findAllById(Iterable<Long> showSeatIds);
     ShowSeat save(ShowSeat showSeat);
 }

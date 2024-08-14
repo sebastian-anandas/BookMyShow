@@ -3,6 +3,7 @@ package io.seb.bookmyshow.services;
 import io.seb.bookmyshow.exceptions.ShowNotFoundException;
 import io.seb.bookmyshow.exceptions.UserNotFoundException;
 import io.seb.bookmyshow.models.*;
+import io.seb.bookmyshow.repositories.BookingRepository;
 import io.seb.bookmyshow.repositories.ShowRepository;
 import io.seb.bookmyshow.repositories.ShowSeatRepository;
 import io.seb.bookmyshow.repositories.UserRepository;
@@ -21,13 +22,16 @@ public class BookingService {
     private ShowRepository showRepository;
     private ShowSeatRepository showSeatRepository;
     private PriceCalculator priceCalculator;
+    private BookingRepository bookingRepository;
 
     public BookingService(UserRepository userRepository, ShowRepository showRepository,
-                          ShowSeatRepository showSeatRepository, PriceCalculator priceCalculator) {
+                          ShowSeatRepository showSeatRepository, PriceCalculator priceCalculator,
+                          BookingRepository bookingRepository) {
         this.userRepository = userRepository;
         this.showRepository = showRepository;
         this.showSeatRepository = showSeatRepository;
         this.priceCalculator = priceCalculator;
+        this.bookingRepository = bookingRepository;
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
@@ -81,6 +85,8 @@ public class BookingService {
         booking.setCreatedAt(new Date());
 
         booking.setAmount(priceCalculator.priceCalculator(showSeats, show));
+
+        bookingRepository.save(booking);
 
         return booking;
     }
